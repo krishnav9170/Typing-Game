@@ -1,0 +1,120 @@
+Sure! Here's the complete code in one file:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Type Master</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+        }
+
+        #word-display {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+
+        #word-input {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            font-size: 18px;
+            box-sizing: border-box;
+            resize: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Type Master</h1>
+        <div id="word-display"></div>
+        <textarea id="word-input" autofocus></textarea>
+        <p>Time left: <span id="time">60</span> seconds</p>
+        <p>Score: <span id="score">0</span></p>
+        <button id="start-button">Start Game</button>
+    </div>
+    <script>
+        const wordDisplay = document.getElementById('word-display');
+        const wordInput = document.getElementById('word-input');
+        const timeDisplay = document.getElementById('time');
+        const scoreDisplay = document.getElementById('score');
+        const startButton = document.getElementById('start-button');
+
+        let time = 60;
+        let score = 0;
+        let words = ["hello", "world", "javascript", "coding", "html", "css", "developer", "keyboard", "function", "variable"];
+        let currentWord;
+        let timer;
+
+        function startGame() {
+            score = 0;
+            time = 60;
+            wordInput.value = '';
+            wordInput.focus();
+            scoreDisplay.textContent = score;
+            timeDisplay.textContent = time;
+            clearInterval(timer);
+            timer = setInterval(updateTime, 1000);
+            nextWord();
+        }
+
+        function updateTime() {
+            if (time > 0) {
+                time--;
+                timeDisplay.textContent = time;
+            } else {
+                clearInterval(timer);
+                endGame();
+            }
+        }
+
+        function nextWord() {
+            currentWord = words[Math.floor(Math.random() * words.length)];
+            wordDisplay.textContent = currentWord;
+        }
+
+        function checkInput() {
+            if (wordInput.value.toLowerCase() === currentWord.toLowerCase()) {
+                score++;
+                scoreDisplay.textContent = score;
+                wordInput.value = '';
+                nextWord();
+            }
+        }
+
+        function endGame() {
+            alert(`Game over! Your score is ${score}.`);
+            wordDisplay.textContent = '';
+            wordInput.value = '';
+        }
+
+        wordInput.addEventListener('input', checkInput);
+        startButton.addEventListener('click', startGame);
+    </script>
+</body>
+</html>
